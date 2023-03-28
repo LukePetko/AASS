@@ -1,12 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "globalEnv": ["PORT"],
+  "globalEnv": ["API_PORT"],
   "pipeline": {
     "build": {
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "public/dist/**"],
-      "dependsOn": ["^build"],
-      "env": ["NEXT_PUBLIC_API_HOST"]
+      "dependsOn": ["^build", "^db:generate"],
+      "env": ["API_PORT"]
     },
     "test": {
       "outputs": ["coverage/**"],
@@ -17,10 +17,14 @@
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "dependsOn": ["^db:generate"]
     },
     "clean": {
       "cache": false
+    },
+    "db:generate": {
+        "cache": false
     }
   }
 }
