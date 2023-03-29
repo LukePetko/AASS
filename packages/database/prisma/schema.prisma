@@ -12,14 +12,15 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  username  String    @db.VarChar(255)
-  password  String    @db.VarChar(255)
-  firstName String    @db.VarChar(255)
-  lastName  String    @db.VarChar(255)
-  Holiday   Holiday[]
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  username    String        @unique @db.VarChar(255)
+  password    String        @db.VarChar(255)
+  firstName   String        @db.VarChar(255)
+  lastName    String        @db.VarChar(255)
+  Holiday     Holiday[]
+  HolidayInfo HolidayInfo[]
 }
 
 model Holiday {
@@ -32,6 +33,18 @@ model Holiday {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   status    String   @db.VarChar(255)
+
+  @@index([userId])
+}
+
+model HolidayInfo {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  remainingDays Int
+  originalDays  Int
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
 
   @@index([userId])
 }
