@@ -798,7 +798,24 @@
   dependencies:
     "tslib" "^2.4.0"
 
-"@tanstack/router@^0.0.1-beta.83":
+"@tanstack/react-router@^0.0.1-beta.83":
+  "integrity" "sha512-FcezDPKxXu7uP8tjTQpKBXkweiql053O7D3hRBg1kWuU3LyouHFGFALLr2xvWkue4WWSpa1mBzrINldYygDKLw=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-router/-/react-router-0.0.1-beta.83.tgz"
+  "version" "0.0.1-beta.83"
+  dependencies:
+    "@babel/runtime" "^7.16.7"
+    "@tanstack/react-store" "0.0.1-beta.81"
+    "@tanstack/router" "0.0.1-beta.83"
+
+"@tanstack/react-store@0.0.1-beta.81":
+  "integrity" "sha512-wN4YVYzWQOvNKBnS+3+JINkR8qx93tX52iqzJfzzt3b7e3oqlkl3X3SnpGH1/hRwMNklMxvT7dIg//qfWGzUhA=="
+  "resolved" "https://registry.npmjs.org/@tanstack/react-store/-/react-store-0.0.1-beta.81.tgz"
+  "version" "0.0.1-beta.81"
+  dependencies:
+    "@tanstack/store" "0.0.1-beta.81"
+    "use-sync-external-store" "^1.2.0"
+
+"@tanstack/router@^0.0.1-beta.83", "@tanstack/router@0.0.1-beta.83":
   "integrity" "sha512-cwkfyvgg7g60wbKZBRl1sbut+eYyE6bPc/Efz2ozFD//oV6qBUftoRm4PbN5cdPgrHjjLOFuOKW43EEUXM/exQ=="
   "resolved" "https://registry.npmjs.org/@tanstack/router/-/router-0.0.1-beta.83.tgz"
   "version" "0.0.1-beta.83"
@@ -2896,6 +2913,7 @@
   "resolved" "file:apps/frontend"
   "version" "0.0.0"
   dependencies:
+    "@tanstack/router" "^0.0.1-beta.83"
     "react" "^18.2.0"
     "react-dom" "^18.2.0"
 
@@ -5035,7 +5053,7 @@
     "iconv-lite" "0.4.24"
     "unpipe" "1.0.0"
 
-"react-dom@^18.2.0":
+"react-dom@^18.2.0", "react-dom@>=16":
   "integrity" "sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   "version" "18.2.0"
@@ -5058,6 +5076,13 @@
   "resolved" "https://registry.npmjs.org/react-refresh/-/react-refresh-0.14.0.tgz"
   "version" "0.14.0"
 
+"react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0", "react@>=16":
+  "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
+  "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
+  "version" "18.2.0"
+  dependencies:
+    "loose-envify" "^1.1.0"
+
 "react@^17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
@@ -5065,13 +5090,6 @@
   dependencies:
     "loose-envify" "^1.1.0"
     "object-assign" "^4.1.1"
-
-"react@^18.2.0", "react@>= 16.8.0 || 17.x.x || ^18.0.0-0":
-  "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
-  "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
-  "version" "18.2.0"
-  dependencies:
-    "loose-envify" "^1.1.0"
 
 "read-cache@^1.0.0":
   "integrity" "sha512-Owdv/Ft7IjOgm/i0xvNDZ1LrRANRfew4b2prF3OWMQLxLfu3bS8FVhCsrSCMK4lR56Y9ya+AThoTpDCTxCmpRA=="
@@ -6189,6 +6207,11 @@
   dependencies:
     "querystringify" "^2.1.1"
     "requires-port" "^1.0.0"
+
+"use-sync-external-store@^1.2.0":
+  "integrity" "sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA=="
+  "resolved" "https://registry.npmjs.org/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz"
+  "version" "1.2.0"
 
 "use@^3.1.0":
   "integrity" "sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ=="
