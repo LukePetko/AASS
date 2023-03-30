@@ -50,8 +50,8 @@ server.post("/request-vacation", async (req, res) => {
 
   const vacation = await prisma.vacation.create({
     data: {
-      start,
-      end,
+      start: new Date(start),
+      end: new Date(end),
       note,
       user: {
         connect: {
