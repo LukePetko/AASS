@@ -21,14 +21,14 @@ model User {
   lastName     String        @db.VarChar(255)
   teamLeader   User?         @relation("TeamLeader", fields: [teamLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   teamLeaderId Int?
-  Holiday      Holiday[]
-  HolidayInfo  HolidayInfo[]
+  Vacation      Vacation[]
+  VacationInfo  VacationInfo[]
   Employee     User[]        @relation("TeamLeader")
 
   @@index([teamLeaderId])
 }
 
-model Holiday {
+model Vacation{
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,7 +42,7 @@ model Holiday {
   @@index([userId])
 }
 
-model HolidayInfo {
+model VacationInfo {
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
