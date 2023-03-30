@@ -4,25 +4,17 @@ import { PrismaClient } from "database";
 
 const prisma = new PrismaClient();
 
-const port = process.env.HOLIDAY_INFO_PORT || 5001;
+const port = process.env.VACATION_MANAGEMENT_PORT || 5001;
 const server = createServer();
 
-server.get("/", async (req, res) => {
-  const { id } = req.body;
-
-  const holidayInfo = await prisma.holidayInfo.findFirst({
-    where: {
-      userId: id,
-    },
-  });
-
-  res.send(holidayInfo);
-});
-
-server.post("/create", async (req, res) => {
+server.post("/create-vacation-info", async (req, res) => {
   const { id, originalDays, remainingDays } = req.body;
 
-  const holidayInfo = await prisma.holidayInfo.create({
+  if (!id || !originalDays || !remainingDays) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const vacationInfo = await prisma.vacationInfo.create({
     data: {
       originalDays,
       remainingDays,
@@ -34,7 +26,81 @@ server.post("/create", async (req, res) => {
     },
   });
 
-  res.status(201).send(holidayInfo);
+  res.status(201).send(vacationInfo);
+});
+
+server.get("/get-vacation-info/", async (req, res) => {
+  const { id } = req.query;
+
+  if (!id) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const vacationInfo = await prisma.vacationInfo.findFirst({
+    where: {
+      userId: Number(id),
+    },
+  });
+
+  res.send(vacationInfo);
+});
+
+server.post("/request-vacation", async (req, res) => {
+  const { id, start, end, note } = req.body;
+
+  const vacation = await prisma.vacation.create({
+    data: {
+      start,
+      end,
+      note,
+      user: {
+        connect: {
+          id,
+        },
+      },
+      status: "PENDING",
+    },
+  });
+
+  res.status(201).json(vacation);
+});
+
+server.post("/recalculate-vacation-info", async (req, res) => {
+  const { id, remainingDays } = req.body;
+
+  if (!id || !remainingDays) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const vacationInfo = await prisma.vacationInfo.updateMany({
+    where: {
+      userId: Number(id),
+    },
+    data: {
+      remainingDays,
+    },
+  });
+
+  res.status(201).send(vacationInfo);
+});
+
+server.post("/approve-vacation", async (req, res) => {
+  const { id, action } = req.body;
+
+  if (!id || !action) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const vacation = await prisma.vacation.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      status: action,
+    },
+  });
+
+  res.send(vacation);
 });
 
 server.listen(port, () => {

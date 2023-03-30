@@ -4,37 +4,23 @@ import { PrismaClient } from "database";
 
 const prisma = new PrismaClient();
 
-const port = process.env.HOLIDAY_INFO_PORT || 5001;
+const port = process.env.SUBORDINATE_MANAGEMENT_PORT || 5001;
 const server = createServer();
 
-server.get("/", async (req, res) => {
-  const { id } = req.body;
+server.get("/get-subordinates", async (req, res) => {
+  const { id } = req.query;
 
-  const holidayInfo = await prisma.holidayInfo.findFirst({
+  if (!id) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const subordinates = await prisma.user.findMany({
     where: {
-      userId: id,
+      teamLeaderId: Number(id),
     },
   });
 
-  res.send(holidayInfo);
-});
-
-server.post("/create", async (req, res) => {
-  const { id, originalDays, remainingDays } = req.body;
-
-  const holidayInfo = await prisma.holidayInfo.create({
-    data: {
-      originalDays,
-      remainingDays,
-      user: {
-        connect: {
-          id,
-        },
-      },
-    },
-  });
-
-  res.status(201).send(holidayInfo);
+  res.send(subordinates);
 });
 
 server.listen(port, () => {
