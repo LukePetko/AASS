@@ -15,13 +15,13 @@
     "test": "turbo run test"
   },
   "dependencies": {
-    "node-fetch": "^3.3.1"
+    "node-fetch": "^3.3.1",
+    "turbo": "1.8.3"
   },
   "devDependencies": {
     "dotenv-cli": "latest",
     "eslint-config-custom": "*",
-    "prettier": "latest",
-    "turbo": "latest"
+    "prettier": "latest"
   },
   "packageManager": "yarn@1.22.17",
   "engines": {
