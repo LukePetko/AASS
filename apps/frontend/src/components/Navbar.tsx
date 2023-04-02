@@ -1,4 +1,5 @@
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
 import getMe from "../api/getMe";
 import { persistUserAtom } from "../atoms/atoms";
@@ -6,12 +7,18 @@ import { persistUserAtom } from "../atoms/atoms";
 const Navbar = () => {
   const [userId, setUserId] = useAtom(persistUserAtom);
 
-  const { data } = useQuery("me", () => getMe(userId));
+  const { data, refetch } = useQuery("me", () => getMe(userId));
+
+  useEffect(() => {
+    if (userId) {
+      refetch();
+    }
+  }, [userId]);
 
   return (
     <div className="bg-primary-200 flex justify-between">
       <h1 className="p-3 text-lg font-bold">DMIS</h1>
-      {data ? (
+      {userId && data ? (
         <div className="flex items-center">
           <p className="mr-2">
             {data.firstName} {data.lastName}
