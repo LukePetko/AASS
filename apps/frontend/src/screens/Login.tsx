@@ -30,22 +30,53 @@ const Login = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div>
-      <input ref={usernameRef} type="text" />
-      <input ref={passwordRef} type="password" />
-      <button
-        onClick={() =>
-          login(usernameRef.current!.value, passwordRef.current!.value)
-        }
-      >
-        Login
-      </button>
-      <button
-        type="button"
-        className="text-white bg-purple-100 hover:bg-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-      >
-        Default
-      </button>
+    <div className="flex justify-center items-center">
+      <div className="flex flex-col max-w-[400px]">
+        <input ref={usernameRef} type="text" />
+        <div>
+          <label
+            htmlFor="username"
+            className="w-full block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white"
+          >
+            Používateľské meno
+          </label>
+          <input
+            type="text"
+            id="username"
+            className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Používateľké meno"
+            required
+            ref={usernameRef}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="w-full block mb-2 text-sm text-left font-medium text-gray-900 dark:text-white"
+          >
+            Heslo
+          </label>
+          <input
+            type="password"
+            id="password"
+            className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Heslo"
+            required
+            ref={passwordRef}
+          />
+        </div>
+        <div>
+          <button
+            type="button"
+            className="w-full text-purple-900 bg-purple-200 hover:bg-purple-300 font-medium rounded-lg text-sm px-5 py-2.5"
+            onClick={() => {
+              login(usernameRef.current!.value, passwordRef.current!.value);
+            }}
+          >
+            Prihlásiť sa
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
