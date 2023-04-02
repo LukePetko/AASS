@@ -1,5 +1,6 @@
+import { useAtom } from "jotai";
 import { useRef } from "react";
-import { useQuery } from "react-query";
+import { persistUserAtom } from "../atoms/atoms";
 
 const login = async (username: string, password: string) => {
   const response = await fetch("http://localhost:3001/login", {
@@ -19,19 +20,18 @@ const login = async (username: string, password: string) => {
 
   const userId = await response.json();
 
-  console.log(userId);
-
-  localStorage.setItem("userId", userId.id);
-  window.location.reload();
+  return userId.id;
 };
 
 const Login = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
+  const [userId, setUserId] = useAtom(persistUserAtom);
+
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex flex-col max-w-[400px]">
+    <div className="flex h-full justify-center items-center">
+      <div className="flex flex-col w-[400px]">
         <input ref={usernameRef} type="text" />
         <div>
           <label
@@ -68,9 +68,14 @@ const Login = () => {
         <div>
           <button
             type="button"
-            className="w-full text-purple-900 bg-purple-200 hover:bg-purple-300 font-medium rounded-lg text-sm px-5 py-2.5"
-            onClick={() => {
-              login(usernameRef.current!.value, passwordRef.current!.value);
+            className="w-full text-primary-900 bg-primary-200 hover:bg-primary-300 font-medium rounded-lg text-sm px-5 py-2.5"
+            onClick={async () => {
+              setUserId(
+                await login(
+                  usernameRef.current!.value,
+                  passwordRef.current!.value
+                )
+              );
             }}
           >
             Prihlásiť sa

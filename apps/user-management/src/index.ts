@@ -58,6 +58,30 @@ server.post("/register", async (req, res) => {
   res.status(201).send({ user, holidayInfo });
 });
 
+server.get("/me", async (req, res) => {
+  const { id } = req.query;
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: Number(id),
+    },
+    select: {
+      id: true,
+      username: true,
+      firstName: true,
+      lastName: true,
+      Vacation: true,
+      VacationInfo: true,
+    },
+  });
+
+  if (!user) {
+    res.status(404).send("User not found");
+  }
+
+  res.send(user);
+});
+
 server.listen(port, () => {
   log(`api running on ${port}`);
 });

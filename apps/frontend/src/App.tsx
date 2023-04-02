@@ -1,23 +1,27 @@
-import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import React, { useEffect } from "react";
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import loginRouter from "./routes/loginRouter";
-import Dashboard from "./screens/Dashboard";
 import contentRouter from "./routes/contentRouter";
+import Navbar from "./components/Navbar";
+import { useAtom } from "jotai";
+import { persistUserAtom } from "./atoms/atoms";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
-  const userId = localStorage.getItem("userId");
+  const [userId] = useAtom(persistUserAtom);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <Navbar />
       {userId ? (
         <RouterProvider router={contentRouter} />
       ) : (
         <RouterProvider router={loginRouter} />
       )}
-    </>
+    </QueryClientProvider>
   );
 }
 
