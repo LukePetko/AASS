@@ -1,6 +1,7 @@
 import { createServer } from "./server";
 import { log } from "logger";
 import { PrismaClient } from "database";
+import fetch from "node-fetch";
 
 const prisma = new PrismaClient();
 
@@ -81,7 +82,7 @@ server.post("/recalculate-vacation-info", async (req, res) => {
     },
   });
 
-  res.status(201).send(vacationInfo);
+  res.status(200).send(vacationInfo);
 });
 
 server.post("/approve-vacation", async (req, res) => {
@@ -99,6 +100,35 @@ server.post("/approve-vacation", async (req, res) => {
       status: action,
     },
   });
+
+  if (action && action === "APPROVED") {
+    const vacationInfo = await prisma.vacationInfo.findFirst({
+      where: {
+        userId: vacation.userId,
+      },
+    });
+
+    if (!vacationInfo) {
+      return res.status(400).send("Missing required fields");
+    }
+
+    const days = Math.ceil(
+      Math.abs(vacation.start - vacation.end) / (1000 * 60 * 60 * 24)
+    );
+
+    const remainingDays = vacationInfo.remainingDays - days;
+
+    await fetch("http://localhost:3002/recalculate-vacation-info", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: vacationInfo.id,
+        remainingDays,
+      }),
+    });
+  }
 
   res.send(vacation);
 });
