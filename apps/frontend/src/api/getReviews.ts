@@ -1,10 +1,12 @@
+import { User } from "../types";
+
 export const getReviews = async (id: number | null) => {
   if (!id) {
     return null;
   }
 
   const response = await fetch(
-    `http://localhost:3003/get-subordinates?id=${id}&filterType=PENDING`,
+    `http://localhost:3003/get-subordinates?id=${id}&vacation_filter=PENDING`,
     {
       method: "GET",
       headers: {
@@ -13,7 +15,7 @@ export const getReviews = async (id: number | null) => {
     }
   );
 
-  const data = await response.json();
+  const data = (await response.json()) as User[];
 
   return data;
 };
