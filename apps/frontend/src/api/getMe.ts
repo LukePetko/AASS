@@ -1,3 +1,5 @@
+import { User } from "../types";
+
 const getMe = async (id: number | null) => {
   if (!id) {
     return null;
@@ -14,7 +16,7 @@ const getMe = async (id: number | null) => {
     throw new Error("Login failed");
   }
 
-  const user = await response.json();
+  const user = (await response.json()) as User;
 
   return user;
 };

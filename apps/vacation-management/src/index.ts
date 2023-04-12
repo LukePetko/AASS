@@ -49,6 +49,8 @@ server.get("/get-vacation-info/", async (req, res) => {
 server.post("/request-vacation", async (req, res) => {
   const { id, start, end, note } = req.body;
 
+  console.log(id, start, end, note);
+
   const vacation = await prisma.vacation.create({
     data: {
       start: new Date(start),
@@ -69,13 +71,15 @@ server.post("/request-vacation", async (req, res) => {
 server.post("/recalculate-vacation-info", async (req, res) => {
   const { id, remainingDays } = req.body;
 
+  console.log(id, remainingDays);
+
   if (!id || !remainingDays) {
     return res.status(400).send("Missing required fields");
   }
 
   const vacationInfo = await prisma.vacationInfo.updateMany({
     where: {
-      userId: Number(id),
+      id,
     },
     data: {
       remainingDays,
@@ -115,6 +119,8 @@ server.post("/approve-vacation", async (req, res) => {
     const days = Math.ceil(
       Math.abs(vacation.start - vacation.end) / (1000 * 60 * 60 * 24)
     );
+
+    console.warn(days);
 
     const remainingDays = vacationInfo.remainingDays - days;
 

@@ -2,6 +2,7 @@ import { useAtom } from "jotai";
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import getMe from "../api/getMe";
 import { getReviews } from "../api/getReviews";
 import { persistUserAtom } from "../atoms/atoms";
 
@@ -44,6 +45,10 @@ const Review = () => {
     getReviews(userId)
   );
 
+  const { data: me, isLoading: meLoading } = useQuery("me", () =>
+    getMe(userId)
+  );
+
   useEffect(() => {
     console.log("data", data);
   }, [data]);
@@ -66,17 +71,18 @@ const Review = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || meLoading) {
     return <div>Loading...</div>;
   }
 
-  if (data && data.length === 0) {
+  if (me && !me.isTeamLeader) {
     return <div>Nemáte prístup na úpravy na tejto stránke</div>;
   }
 
   return (
-    <div>
-      <h1>Review</h1>
+    <div className="m-5">
+      <h1 className="text-2xl font-bold">Review</h1>
+      <h2 className="text-xl font-semibold">Zamestnanci</h2>
       {data &&
         data.map((user) => (
           <div key={user.id} className="py-4">
@@ -107,8 +113,8 @@ const Review = () => {
             ))}
           </div>
         ))}
-      <p>
-        <Link to="/">dashboard</Link>
+      <p className="text-primary-900 bg-primary-300 hover:bg-primary-400 font-medium rounded-lg text-sm px-5 py-2.5 mr-2">
+        <Link to="/">Späť na domovskú stránku</Link>
       </p>
     </div>
   );

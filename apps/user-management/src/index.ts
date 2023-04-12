@@ -73,6 +73,7 @@ server.get("/me", async (req, res) => {
       Vacation: true,
       VacationInfo: true,
       teamLeader: true,
+      isTeamLeader: true,
     },
   });
 

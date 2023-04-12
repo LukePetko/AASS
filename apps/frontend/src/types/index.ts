@@ -4,6 +4,7 @@ export type User = {
   lastName: string;
   username: string;
   teamLeaderId?: number;
+  isTeamLeader: boolean;
 
   Vacation: Vacation[];
   VacationInfo: VacationInfo[];

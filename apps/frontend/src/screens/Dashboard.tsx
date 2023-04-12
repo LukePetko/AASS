@@ -15,17 +15,17 @@ const Dashboard = () => {
   }, [data]);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Dashboard content</p>
-      {data && !data.teamLeader && (
-        <p>
-          <Link to="/review">review</Link>
+    <div className="m-5">
+      {data && data.isTeamLeader && (
+        <p className="text-white bg-primary-300 hover:bg-primary-400 focus:ring-4 focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
+          <Link to="/review">Zamestanci</Link>
         </p>
       )}
-      <p>
-        <Link to="/new-holiday">new holiday</Link>
-      </p>
+      {data && !data.isTeamLeader && (
+        <p className="w-auto text-white bg-primary-300 hover:bg-primary-400 focus:ring-4 focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5">
+          <Link to="/new-holiday">Zadávanie dovolenky</Link>
+        </p>
+      )}
     </div>
   );
 };

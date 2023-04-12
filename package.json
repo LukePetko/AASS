@@ -15,7 +15,9 @@
     "test": "turbo run test"
   },
   "dependencies": {
+    "date-fns": "^2.29.3",
     "node-fetch": "^3.3.1",
+    "react-date-range": "^1.4.0",
     "turbo": "1.8.3"
   },
   "devDependencies": {

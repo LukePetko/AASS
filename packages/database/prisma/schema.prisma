@@ -12,23 +12,24 @@ datasource db {
 }
 
 model User {
-  id           Int           @id @default(autoincrement())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  username     String        @unique @db.VarChar(255)
-  password     String        @db.VarChar(255)
-  firstName    String        @db.VarChar(255)
-  lastName     String        @db.VarChar(255)
-  teamLeader   User?         @relation("TeamLeader", fields: [teamLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id           Int            @id @default(autoincrement())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  username     String         @unique @db.VarChar(255)
+  password     String         @db.VarChar(255)
+  firstName    String         @db.VarChar(255)
+  lastName     String         @db.VarChar(255)
+  teamLeader   User?          @relation("TeamLeader", fields: [teamLeaderId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   teamLeaderId Int?
-  Vacation      Vacation[]
-  VacationInfo  VacationInfo[]
-  Employee     User[]        @relation("TeamLeader")
+  isTeamLeader Boolean        @default(false)
+  Vacation     Vacation[]
+  VacationInfo VacationInfo[]
+  Employee     User[]         @relation("TeamLeader")
 
   @@index([teamLeaderId])
 }
 
-model Vacation{
+model Vacation {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
