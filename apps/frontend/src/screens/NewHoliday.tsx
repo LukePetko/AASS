@@ -26,18 +26,35 @@ const NewHoliday = () => {
       calcBusinessDays(selectionRange.startDate, selectionRange.endDate)
     );
 
-    const response = await fetch(`http://localhost:3002/request-vacation/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: userId,
-        start: selectionRange.startDate,
-        end: selectionRange.endDate,
-        note: noteRef.current?.value,
-      }),
-    });
+    const response = await fetch(
+      `http://localhost:8080/engine-rest/process-definition/key/Process_13lt3kg/start`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          variables: {
+            id: {
+              value: userId,
+              type: "String",
+            },
+            start: {
+              value: selectionRange.startDate,
+              type: "String",
+            },
+            end: {
+              value: selectionRange.endDate,
+              type: "String",
+            },
+            note: {
+              value: noteRef.current?.value,
+              type: "String",
+            },
+          },
+        }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Something went wrong");
