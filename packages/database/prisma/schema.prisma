@@ -63,6 +63,7 @@ model Notification {
   message   String   @db.VarChar(255)
   user      User     @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   userId    Int
+  seen      Boolean  @default(false)
 
   @@index([userId])
 }

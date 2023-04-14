@@ -79,6 +79,29 @@ server.post("/request-vacation", async (req, res) => {
     },
   });
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: Number(id),
+    },
+    select: {
+      firstName: true,
+      lastName: true,
+      teamLeaderId: true,
+    },
+  });
+
+  producer.send({
+    topic: "notification",
+    messages: [
+      {
+        value: JSON.stringify({
+          userId: user?.teamLeaderId,
+          message: `You have a new vacation request from ${user?.firstName} ${user?.lastName}`,
+        }),
+      },
+    ],
+  });
+
   res.status(201).json(vacation);
 });
 

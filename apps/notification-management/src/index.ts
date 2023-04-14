@@ -49,6 +49,26 @@ server.get("/get-notifications", async (req, res) => {
   const notifications = await prisma.Notification.findMany({
     where: {
       userId: Number(id),
+      seen: false,
+    },
+  });
+
+  return res.send(notifications);
+});
+
+server.get("/seen", async (req, res) => {
+  const { id } = req.query;
+
+  if (!id) {
+    return res.status(400).send("Missing required fields");
+  }
+
+  const notifications = await prisma.Notification.updateMany({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      seen: true,
     },
   });
 
