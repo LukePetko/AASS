@@ -2,11 +2,25 @@ import { createServer } from "./server";
 import { log } from "logger";
 import { PrismaClient } from "database";
 import fetch from "node-fetch";
+import { Kafka } from "kafkajs";
 
 const prisma = new PrismaClient();
 
 const port = process.env.VACATION_MANAGEMENT_PORT || 5001;
 const server = createServer();
+
+const kafka = new Kafka({
+  clientId: "notification-management",
+  brokers: ["localhost:9092"],
+});
+
+const producer = kafka.producer();
+
+const run = async () => {
+  await producer.connect();
+};
+
+run().catch(console.error);
 
 server.post("/create-vacation-info", async (req, res) => {
   const { id, originalDays, remainingDays } = req.body;
@@ -133,6 +147,18 @@ server.post("/approve-vacation", async (req, res) => {
         id: vacationInfo.id,
         remainingDays,
       }),
+    });
+
+    await producer.send({
+      topic: "notification",
+      messages: [
+        {
+          value: JSON.stringify({
+            userId: vacation.userId,
+            message: `Your vacation request from ${vacation.start} to ${vacation.end} has been approved`,
+          }),
+        },
+      ],
     });
   }
 
