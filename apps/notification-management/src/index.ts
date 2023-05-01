@@ -9,7 +9,7 @@ const port = process.env.NOTIFICATION_MANAGEMENT_PORT || 5001;
 const server = createServer();
 
 const kafka = new Kafka({
-  clientId: "notification-management",
+  clientId: "kafka",
   brokers: ["localhost:9092"],
 });
 

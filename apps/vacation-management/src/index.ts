@@ -10,7 +10,7 @@ const port = process.env.VACATION_MANAGEMENT_PORT || 5001;
 const server = createServer();
 
 const kafka = new Kafka({
-  clientId: "notification-management",
+  clientId: "kafka",
   brokers: ["localhost:9092"],
 });
 
@@ -105,27 +105,6 @@ server.post("/request-vacation", async (req, res) => {
   res.status(201).json(vacation);
 });
 
-server.post("/recalculate-vacation-info", async (req, res) => {
-  const { id, remainingDays } = req.body;
-
-  console.log(id, remainingDays);
-
-  if (!id || !remainingDays) {
-    return res.status(400).send("Missing required fields");
-  }
-
-  const vacationInfo = await prisma.vacationInfo.updateMany({
-    where: {
-      id,
-    },
-    data: {
-      remainingDays,
-    },
-  });
-
-  res.status(200).send(vacationInfo);
-});
-
 server.post("/approve-vacation", async (req, res) => {
   const { id, action } = req.body;
 
@@ -161,15 +140,16 @@ server.post("/approve-vacation", async (req, res) => {
 
     const remainingDays = vacationInfo.remainingDays - days;
 
-    await fetch("http://localhost:3002/recalculate-vacation-info", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: vacationInfo.id,
-        remainingDays,
-      }),
+    producer.send({
+      topic: "recalculate",
+      messages: [
+        {
+          value: JSON.stringify({
+            id: vacationInfo.id,
+            remainingDays,
+          }),
+        },
+      ],
     });
 
     await producer.send({
