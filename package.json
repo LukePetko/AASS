@@ -21,6 +21,7 @@
     "turbo": "1.8.3"
   },
   "devDependencies": {
+    "@types/react-date-range": "^1.4.4",
     "dotenv-cli": "latest",
     "eslint-config-custom": "*",
     "prettier": "latest"

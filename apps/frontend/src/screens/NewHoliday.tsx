@@ -15,7 +15,7 @@ const NewHoliday = () => {
 
   const noteRef = useRef<HTMLInputElement>(null);
 
-  const handleSelect = (ranges) => {
+  const handleSelect = (ranges: any) => {
     selectionRange.startDate = ranges.selection.startDate;
     selectionRange.endDate = ranges.selection.endDate;
   };

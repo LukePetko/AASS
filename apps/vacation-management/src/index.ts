@@ -117,7 +117,8 @@ server.post("/approve-vacation", async (req, res) => {
     }
 
     const days = Math.ceil(
-      Math.abs(vacation.start - vacation.end) / (1000 * 60 * 60 * 24)
+      Math.abs(vacation.start.valueOf() - vacation.end.valueOf()) /
+        (1000 * 60 * 60 * 24)
     );
 
     console.warn(days);
