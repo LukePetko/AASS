@@ -18,4 +18,7 @@ Pre spustenie je potrebné (všetky vetvy):
 > Poznámka: pri zmene vetiev je potrebné spustiť znova príkaz `yarn`, nakoľko každá vetva vyžaduje trocha iné knižnice
 
 Pre spustenie camunda verzie
-- spustenie podľa návodu na camunda webe (docker container + deploy diagramu)
+- spustenie podľa návodu na camunda webe (docker container + deploy diagramu - vo vetve `camunda` je to `project.bpmn`)
+
+Pre spustenie kafka verzie
+- vetva obsahuje `docker-compose.yml`, ktorý obsahuje `kafka` a `zookeeper` kontajnery. Pred spustením projektu cez `yarn run dev` musia bežať 
