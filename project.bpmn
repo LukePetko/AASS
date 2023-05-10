@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1us4j6w" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Process_13lt3kg" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_0pp3h7j</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0pp3h7j" sourceRef="StartEvent_1" targetRef="Activity_0szvte6" />
+    <bpmn:serviceTask id="Activity_0szvte6" name="Spracovanie dovolenky" camunda:type="external" camunda:topic="vacation-request">
+      <bpmn:incoming>Flow_0pp3h7j</bpmn:incoming>
+      <bpmn:outgoing>Flow_0fwowig</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="Activity_0mgktzp" name="Potvrdenie požiadavky" camunda:assignee="demo">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_0fwowig</bpmn:incoming>
+      <bpmn:outgoing>Flow_1t4873l</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0fwowig" sourceRef="Activity_0szvte6" targetRef="Activity_0mgktzp" />
+    <bpmn:serviceTask id="Activity_1enjvc1" name="Schválenie dovolenky" camunda:type="external" camunda:topic="vacation-approval">
+      <bpmn:incoming>Flow_1t4873l</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kv5uld</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1t4873l" sourceRef="Activity_0mgktzp" targetRef="Activity_1enjvc1" />
+    <bpmn:serviceTask id="Activity_1tcielx" name="Započítanie dovolenky" camunda:type="external" camunda:topic="vacation-recalculation">
+      <bpmn:incoming>Flow_0kv5uld</bpmn:incoming>
+      <bpmn:outgoing>Flow_145fj7k</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0kv5uld" sourceRef="Activity_1enjvc1" targetRef="Activity_1tcielx" />
+    <bpmn:endEvent id="Event_1brubm2">
+      <bpmn:incoming>Flow_145fj7k</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_145fj7k" sourceRef="Activity_1tcielx" targetRef="Event_1brubm2" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_13lt3kg">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wvlyd1_di" bpmnElement="Activity_0szvte6">
+        <dc:Bounds x="240" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0mgktzp_di" bpmnElement="Activity_0mgktzp">
+        <dc:Bounds x="400" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1enjvc1_di" bpmnElement="Activity_1enjvc1">
+        <dc:Bounds x="560" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1tcielx_di" bpmnElement="Activity_1tcielx">
+        <dc:Bounds x="720" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1brubm2_di" bpmnElement="Event_1brubm2">
+        <dc:Bounds x="882" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0pp3h7j_di" bpmnElement="Flow_0pp3h7j">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="240" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0fwowig_di" bpmnElement="Flow_0fwowig">
+        <di:waypoint x="340" y="120" />
+        <di:waypoint x="400" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1t4873l_di" bpmnElement="Flow_1t4873l">
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="560" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kv5uld_di" bpmnElement="Flow_0kv5uld">
+        <di:waypoint x="660" y="120" />
+        <di:waypoint x="720" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_145fj7k_di" bpmnElement="Flow_145fj7k">
+        <di:waypoint x="820" y="120" />
+        <di:waypoint x="882" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
